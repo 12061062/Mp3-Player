@@ -1,0 +1,157 @@
+/*
+ * ------------------------------------------
+ * File Name: Mp3.cs
+ * Project Name: 1260-001-GunJason-Project4
+ * ------------------------------------------
+ * Author's name and email: Jason Gun gunjc1@etsu.edu
+ * Course Section: 001
+ * Creation Date: 4/3/23
+ * ------------------------------------------
+ */
+using System;
+using _1260_001_GunJason_Project4;
+
+namespace _1260_001_GunJason_Project4
+{
+    public class Mp3
+    {
+        //creating variables
+        private string songTitle;
+        private string artist;
+        private string songReleaseDate;
+        private double playbackTime;
+        private Genre genre;
+        private decimal downloadCost;
+        private double fileSize;
+        private string coverPhoto;
+
+        //getters and setters
+        public string getSongTitle()
+        {
+            return songTitle;
+        }
+
+        public void setSongTitle(string songTitle)
+        {
+            this.songTitle = songTitle;
+        }
+
+        public string getArtist()
+        {
+            return artist;
+        }
+
+        public void setArtist(string artist)
+        {
+            this.artist = artist;
+        }
+
+        public string getSongReleaseDate()
+        {
+            return songReleaseDate;
+        }
+
+        public void setSongReleaseDate(string songReleaseDate)
+        {
+            this.songReleaseDate = songReleaseDate;
+        }
+
+        public double getPlaybackTime()
+        {
+            return playbackTime;
+        }
+
+        public void setPlaybackTime(double playbackTime)
+        {
+            this.playbackTime = playbackTime;
+        }
+
+        public Genre getGenre()
+        {
+            return genre;
+        }
+
+        public void setGenre(Genre genre)
+        {
+            this.genre = genre;
+        }
+
+        public decimal getDownloadCost()
+        {
+            return downloadCost;
+        }
+
+        public void setDownloadCost(decimal downloadCost)
+        {
+            this.downloadCost = downloadCost;
+        }
+
+        public double getFileSize()
+        {
+            return fileSize;
+        }
+
+        public void setFileSize(double fileSize)
+        {
+            this.fileSize = fileSize;
+        }
+
+        public string getCoverPhoto()
+        {
+            return coverPhoto;
+        }
+
+        public void setCoverPhoto(string coverphoto)
+        {
+            this.coverPhoto = coverphoto;
+        }
+
+        //Default Constructor
+        public Mp3()
+        {
+            setSongTitle("");
+            setArtist("");
+            setSongReleaseDate("");
+            setPlaybackTime(0.0);
+            setGenre(0);
+            setDownloadCost(000);
+            setFileSize(0.0);
+            setCoverPhoto("");
+        }
+
+        //Paramaterized Constructor
+        public Mp3(string songTitle, string artist, string songReleaseDate, double playbackTime, Genre genre, decimal downloadCost, double fileSize, string coverPhoto)
+        {
+            setSongTitle(songTitle);
+            setArtist(artist);
+            setSongReleaseDate(songReleaseDate);
+            setPlaybackTime(playbackTime);
+            setGenre(genre);
+            setDownloadCost(downloadCost);
+            setFileSize(fileSize);
+            setCoverPhoto(coverPhoto);
+        }
+
+        //ToString Method
+        public override string ToString()
+        {
+            string info = "";
+            info += $"Song Title: {getSongTitle()}\n";
+            info += $"Artist: {getArtist()}\n";
+            info += $"Song's Release Date: {getSongReleaseDate()}\n";
+            info += $"Playback Time: {getPlaybackTime()} seconds\n";
+            info += $"Genre: {getGenre()}\n";
+            info += $"Download Cost: ${getDownloadCost()}\n";
+            info += $"File size: {getFileSize()} MBs\n";
+            info += $"Cover photo: {getCoverPhoto()}.jpg";
+            return info;
+        }
+    }
+
+
+
+}
+
+
+
+
