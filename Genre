@@ -1,0 +1,23 @@
+/*
+ * ------------------------------------------
+ * File Name: Genre.cs
+ * Project Name: 1260-001-GunJason-Project4
+ * ------------------------------------------
+ * Author's name and email: Jason Gun gunjc1@etsu.edu
+ * Course Section: 001
+ * Creation Date: 4/3/23
+ * ------------------------------------------
+ */
+using System;
+namespace _1260_001_GunJason_Project4
+{
+    public enum Genre
+    {
+        Rock,
+        Pop,
+        Jazz,
+        Country,
+        Classical,
+        Other
+    }
+}
