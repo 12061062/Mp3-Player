@@ -1,0 +1,226 @@
+/*
+ * ------------------------------------------
+ * File Name: Program.cs
+ * Project Name: 1260-001-GunJason-Project4
+ * ------------------------------------------
+ * Author's name and email: Jason Gun gunjc1@etsu.edu
+ * Course Section: 001
+ * Creation Date: 4/3/23
+ * ------------------------------------------
+ */
+using _1260_001_GunJason_Project4;
+public class program
+{
+    static Playlist playlist;
+    public static void Main()
+    {
+        try
+        {
+            //Welcoming user and saving their name
+            Console.WriteLine("Welcome to the MP3 Project, press anything to continue");
+            Console.ReadKey();
+            Console.WriteLine("What is your name?");
+            string userName = Console.ReadLine();
+            bool menuBool = false;
+
+            while (menuBool == false)
+            {
+                //Giving the user a menu of options
+                Console.WriteLine($"What would you like to do, {userName}?");
+
+                int choice = 0;
+                int editPlaylistInt = 0;
+                int removeMp3 = 0;
+                string searchSongTitle = "";
+                string searchByGenre = "";
+                string searchByArtist = "";
+                string playlistName = "";
+                string playlistCreator = "";
+                string playlistCreationDate = "";
+
+
+                Console.WriteLine("------------------------------------");
+                Console.WriteLine("Which option would you like to do?\nEnter a number 1-11");
+                Console.WriteLine("1. Create a new playlist");
+                Console.WriteLine("2. Create a new MP3 object and add it to the playlist");
+                Console.WriteLine("3. Edit an existing MP3 from the playlist");
+                Console.WriteLine("4. Drop an MP3 from the playlist");
+                Console.WriteLine("5. Display all MP3s in the playlist");
+                Console.WriteLine("6. Find and display an MP3 by song title");
+                Console.WriteLine("7. Display all MP3s on the tracker of a given genre");
+                Console.WriteLine("8. Display all MP3s on the tracker with a given artist");
+                Console.WriteLine("9. Sort the MP3s by song title");
+                Console.WriteLine("10. Sort the MP3s by song release date");
+                Console.WriteLine("11. Load a playlist");
+                Console.WriteLine("12. Save a playlist");
+                Console.WriteLine("13. Exit");
+                Console.WriteLine("------------------------------------");
+
+                choice = Convert.ToInt32(Console.ReadLine());
+
+                //Console.WriteLine("Please enter a valid number 1-11");
+
+
+
+                switch (choice)
+                {
+                    case 1:
+
+                        if (playlist != null)
+                        {
+                            if (playlist.getSaveNeeded() == true)
+                            {
+
+                                Console.WriteLine("What is the file path you want to save to for your playlist?");
+                                string userString3 = Console.ReadLine();
+                                playlist.SaveToFile(userString3);
+                            }
+                        }
+
+                        Console.WriteLine("You've selected to make a new playlist");
+                        List<Mp3> MP3List = new List<Mp3>();
+                        Console.WriteLine("What is your playlist's name?");
+                        playlistName = Console.ReadLine();
+                        Console.WriteLine("What is your playlist's creator?");
+                        playlistCreator = Console.ReadLine();
+                        Console.WriteLine("What is your playlist's creation date?");
+                        playlistCreationDate = Console.ReadLine();
+
+                        playlist = new Playlist(MP3List, playlistName, playlistCreator, playlistCreationDate);
+                        Console.WriteLine(playlist.ToString());
+                        break;
+                    case 2:
+                        Console.WriteLine("You've chosen to make a new Mp3 and add it to the playlist\nClick anything to continue");
+                        Console.ReadKey();
+                        //Getting the user's information
+                        Console.WriteLine("What is your song title?");
+                        string songTitle = Console.ReadLine();
+                        Console.WriteLine("What is your artist?");
+                        string artist = Console.ReadLine();
+                        Console.WriteLine("What is your release date?");
+                        string releaseDate = Console.ReadLine();
+                        Console.WriteLine("What is your playback time?");
+                        double playbackTime = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine("What is your genre?");
+                        string usergenre = Console.ReadLine();
+                        Genre genre = (Genre)Enum.Parse(typeof(Genre), usergenre);
+                        Console.WriteLine("What is your download cost?");
+                        decimal downloadCost = Convert.ToDecimal(Console.ReadLine());
+                        Console.WriteLine("What is your file size?");
+                        double fileSize = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine("What is your cover photo?");
+                        string coverphoto = Console.ReadLine();
+
+                        //Creating an instance of another class
+                        Mp3 mP3 = new Mp3(songTitle, artist, releaseDate, playbackTime, genre, downloadCost, fileSize, coverphoto);
+
+                        playlist.AddSong(mP3);
+
+                        Console.WriteLine("Your data has been saved, here's your info!");
+                        Console.WriteLine(mP3.ToString());
+                        playlist.setSaveNeeded(true);
+                        Console.ReadKey();
+                        break;
+                    case 3:
+                        Console.WriteLine("You've selected to edit an existing playlist");
+                        Console.WriteLine("At what index would you like to edit?");
+                        editPlaylistInt = Convert.ToInt32(Console.ReadLine());
+                        //Getting the user's information
+                        Console.WriteLine("What is your song title?");
+                        songTitle = Console.ReadLine();
+                        Console.WriteLine("What is your artist?");
+                        artist = Console.ReadLine();
+                        Console.WriteLine("What is your release date?");
+                        releaseDate = Console.ReadLine();
+                        Console.WriteLine("What is your playback time?");
+                        playbackTime = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine("What is your genre?");
+                        usergenre = Console.ReadLine();
+                        Genre genre5 = (Genre)Enum.Parse(typeof(Genre), usergenre);
+                        Console.WriteLine("What is your download cost?");
+                        downloadCost = Convert.ToDecimal(Console.ReadLine());
+                        Console.WriteLine("What is your file size?");
+                        fileSize = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine("What is your cover photo?");
+                        coverphoto = Console.ReadLine();
+
+                        //Creating an instance of another class
+                        Mp3 mP3Test = new Mp3(songTitle, artist, releaseDate, playbackTime, genre5, downloadCost, fileSize, coverphoto);
+
+                        playlist.EditPlaylist(editPlaylistInt, mP3Test);
+                        playlist.setSaveNeeded(true);
+                        break;
+                    case 4:
+                        Console.WriteLine("You've selected to remove an Mp3 from the playlist");
+                        Console.WriteLine("At what position would you like to remove?");
+                        removeMp3 = Convert.ToInt32(Console.ReadLine());
+
+                        Console.WriteLine(playlist.RemoveSong(removeMp3));
+                        playlist.setSaveNeeded(true);
+                        break;
+                    case 5:
+                        Console.WriteLine("You've selected to display all of the Mp3's in the playlist");
+                        Console.WriteLine(playlist.ToString());
+                        break;
+                    case 6:
+                        Console.WriteLine("You've selected to find and display an Mp3 by song title");
+                        Console.WriteLine("What is your song title?");
+                        searchSongTitle = Console.ReadLine();
+                        Console.WriteLine(playlist.SearchSongTitle(searchSongTitle));
+                        break;
+                    case 7:
+                        Console.WriteLine("You've selected to find and display songs of a given genre");
+                        Console.WriteLine("What is your genre?");
+                        searchByGenre = Console.ReadLine();
+                        Genre searchGenre = (Genre)Enum.Parse(typeof(Genre), searchByGenre);
+                        Console.WriteLine(playlist.SearchGenre(searchGenre));
+                        break;
+                    case 8:
+                        Console.WriteLine("You've selected to find and display song of a given artist");
+                        Console.WriteLine("What is the artist's name?");
+                        searchByArtist = Console.ReadLine();
+                        Console.WriteLine(playlist.SearchArtist(searchByArtist));
+                        break;
+                    case 9:
+                        Console.WriteLine("You've selected to sort the songs by song title");
+                        playlist.SortSongTitle();
+                        Console.WriteLine(playlist.SortSongTitle);
+                        playlist.setSaveNeeded(true);
+                        break;
+                    case 10:
+                        Console.WriteLine("You've selected to sort the songs by release date");
+                        playlist.SortReleaseDate();
+                        Console.WriteLine(playlist.SortReleaseDate);
+                        playlist.setSaveNeeded(true);
+                        break;
+                    case 11:
+                        Console.WriteLine("What is the file path for your playlist?");
+                        string userString = Console.ReadLine();
+                        playlist = new Playlist();
+                        playlist.FillFromFile(userString);
+                        break;
+                    case 12:
+                        Console.WriteLine("What is the file path you want to save to for your playlist?");
+                        string userString2 = Console.ReadLine();
+                        playlist.SaveToFile(userString2);
+                        break;
+                    case 13:
+                        if (playlist.getSaveNeeded() == true)
+                        {
+                            Console.WriteLine("What is the file path you want to save to for your playlist?");
+                            string userString3 = Console.ReadLine();
+                            playlist.SaveToFile(userString3);
+                        }
+                        menuBool = true;
+                        break;
+                }
+            }
+        }
+        catch
+        {
+            Console.WriteLine("Enter a valid input");
+        }
+
+        Console.ReadKey();
+    }
+}
