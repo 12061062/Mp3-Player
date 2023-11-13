@@ -1,0 +1,233 @@
+/*
+ * ------------------------------------------
+ * File Name: Playlist.cs
+ * Project Name: 1260-001-GunJason-Project4
+ * ------------------------------------------
+ * Author's name and email: Jason Gun gunjc1@etsu.edu
+ * Course Section: 001
+ * Creation Date: 4/3/23
+ * ------------------------------------------
+ */
+using System;
+using _1260_001_GunJason_Project4;
+
+namespace _1260_001_GunJason_Project4
+{
+    public class Playlist
+    {
+        private List<Mp3> mp3List;
+        private string playlistName;
+        private string playlistCreator;
+        private string playlistCreationDate;
+        private bool saveNeeded;
+
+        public Playlist()
+        {
+            mp3List = new List<Mp3>();
+            playlistName = "";
+            playlistCreator = "";
+            playlistCreationDate = "";
+            saveNeeded = false;
+        }
+
+        public Playlist(Playlist existingPlaylist)
+        {
+            List<Mp3> copyPlaylist = new List<Mp3>();
+            copyPlaylist = existingPlaylist.mp3List;
+            playlistName = existingPlaylist.playlistName;
+            playlistCreator = existingPlaylist.playlistCreator;
+            playlistCreationDate = existingPlaylist.playlistCreationDate;
+            saveNeeded = existingPlaylist.saveNeeded;
+        }
+
+        public Playlist(List<Mp3> mp3List, string playlistName, string playlistCreator, string playlistCreationDate)
+        {
+            this.mp3List = new List<Mp3>(mp3List);
+            this.playlistName = playlistName;
+            this.playlistCreator = playlistCreator;
+            this.playlistCreationDate = playlistCreationDate;
+        }
+
+        public string getPlaylistname()
+        {
+            return playlistName;
+        }
+
+        public void setPlaylistName(string playlistName)
+        {
+            this.playlistName = playlistName;
+        }
+
+        public bool getSaveNeeded()
+        {
+            return saveNeeded;
+        }
+
+        public void setSaveNeeded(bool saveNeeded)
+        {
+            this.saveNeeded = saveNeeded;
+        }
+
+        public string getPlaylistCreator()
+        {
+            return playlistCreator;
+        }
+
+        public void setPlaylistCreator(string playlistCreator)
+        {
+            this.playlistCreator = playlistCreator;
+        }
+
+        public void FillFromFile(string filePath)
+        {
+            try
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    string line;
+                    line = reader.ReadLine();
+                    string[] mp3Data = line.Split("|");
+                    setPlaylistName(mp3Data[0]);
+                    setPlaylistCreator(mp3Data[1]);
+                    setPlaylistCreationDate(mp3Data[2]);
+
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string[] mp3String = line.Split("|");
+                        Mp3 mp3String1 = new Mp3(mp3String[0], mp3String[1], mp3String[2], Convert.ToDouble(mp3String[3]), (Genre)Enum.Parse(typeof(Genre), mp3String[4]), Convert.ToDecimal(mp3String[5]), Convert.ToDouble(mp3String[6]), mp3String[7]);
+                        mp3List.Add(mp3String1);
+                    }
+                    setSaveNeeded(false);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Exception: {e.Message}");
+            }
+        }
+
+        public void SaveToFile(string filePath)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    //string[] playlistDetails = { getPlaylistname(), getPlaylistCreator(), getPlaylistCreationDate() };
+                    writer.WriteLine($"{getPlaylistname()}|{getPlaylistCreator()}|{getPlaylistCreationDate()}");
+                    for (int i = 0; i < mp3List.Count; i++)
+                    {
+                        writer.WriteLine($"{mp3List[i].getSongTitle()}|{mp3List[i].getArtist()}|{mp3List[i].getSongReleaseDate()}|{mp3List[i].getPlaybackTime()}|{mp3List[i].getGenre()}|{mp3List[i].getDownloadCost()}|{mp3List[i].getFileSize()}|{mp3List[i].getCoverPhoto()}");
+                    }
+                    setSaveNeeded(false);
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        public string getPlaylistCreationDate()
+        {
+            return playlistCreationDate;
+        }
+
+        public void setPlaylistCreationDate(string playlistCreationDate)
+        {
+            this.playlistCreationDate = playlistCreationDate;
+        }
+
+        public Mp3 SearchSongTitle(string songTitle)
+        {
+            for (int i = 0; i < mp3List.Count; i++)
+            {
+                if (mp3List[i].getSongTitle() == songTitle)
+                {
+                    return mp3List[i];
+                }
+            }
+            return null;
+        }
+
+        public List<Mp3> SearchGenre(Genre genre)
+        {
+            List<Mp3> foundPlaylists = new List<Mp3>();
+
+            for (int i = 0; i < mp3List.Count; i++)
+            {
+                if (mp3List[i].getGenre() == genre)
+                {
+                    foundPlaylists.Add(mp3List[i]);
+                }
+            }
+            return foundPlaylists;
+        }
+
+        public List<Mp3> SearchArtist(string artist)
+        {
+            List<Mp3> foundPlaylists = new List<Mp3>();
+
+            for (int i = 0; i < mp3List.Count; i++)
+            {
+                if (mp3List[i].getArtist() == artist)
+                {
+                    foundPlaylists.Add(mp3List[i]);
+                }
+            }
+            return foundPlaylists;
+        }
+
+        public void SortSongTitle()
+        {
+            //Using lambda, creating function, using sort method that uses x and y as paramaters with
+            //a lambda decleration operator to separate the paramters from the body, the body uses the
+            //compareTo method to compare the getMp3 titles to sort them
+            mp3List.Sort((x, y) => x.getSongTitle().CompareTo(y.getSongTitle()));
+        }
+
+        public void SortReleaseDate()
+        {
+            //Using lambda, creating function, using sort method that uses x and y as paramaters with
+            //a lambda decleration operator to separate the paramters from the body, the body uses the
+            //compareTo method to compare the getMp3 release date to sort them
+            mp3List.Sort((x, y) => x.getSongReleaseDate().CompareTo(y.getSongReleaseDate()));
+        }
+
+        public void AddSong(Mp3 song)
+        {
+            mp3List.Add(song);
+        }
+
+        public List<Mp3> RemoveSong(int index)
+        {
+            mp3List.RemoveAt(index);
+            return mp3List;
+        }
+
+        public List<Mp3> EditPlaylist(int index, Mp3 song)
+        {
+            mp3List.RemoveAt(index);
+            mp3List.Add(song);
+            return mp3List;
+        }
+
+        public override string ToString()
+        {
+            string info = "";
+            //for each Mp3's loop, add to info
+
+            info += $"Your playlist name: {getPlaylistname()}\n";
+            info += $"Your playlist creator: {getPlaylistCreator()}\n";
+            info += $"Your playlist creation date: {getPlaylistCreationDate()}\n";
+            info += "--------------------------------------------------------------\n";
+
+            foreach (Mp3 song in mp3List)
+            {
+                info += $"{song.ToString()}";
+            }
+
+            return info;
+        }
+    }
+}
+
